@@ -1,0 +1,10 @@
+.StudentListing_title{
+    font-size: 20px;
+    font-weight: 400;
+}
+.StudentListing_seprator{
+    height: 10px;
+    width: 2px;
+    background-color: black;
+    margin-block: auto;
+}
