@@ -5,7 +5,16 @@ import DataTable from '../../Component/Common/DataTable/DataTable';
 import { Sidedrawer } from '../../Component/Sidedrawer/Sidedrawer';
 import { useRef } from 'react';
 import Backdrop from '../../Component/Common/Backdrop/Backdrop';
+import { useEffect,useState } from 'react';
+import { getListOfStudent } from './api';
 const StudentListing = () => {
+ const [EditUserDetail, setEditUserDetail] = useState([]);
+  useEffect(async() => {
+  const res=await getListOfStudent()
+  const data =  await res.json();
+  console.log(data)
+  }, [])
+
    const sideDrawerRef= useRef()
    const backDropRef= useRef()
    const backdropCancelHandler=()=>{
@@ -18,7 +27,11 @@ const StudentListing = () => {
           onCancelHandler={backdropCancelHandler}
           backDropRef={backDropRef}
         />
-        <Sidedrawer backDropRef={backDropRef} sideDrawerRef={sideDrawerRef} />
+        <Sidedrawer
+          EditUserDetail={EditUserDetail}
+          backDropRef={backDropRef}
+          sideDrawerRef={sideDrawerRef}
+        />
         <div className={classes.StudentListing_header}>
           <span className={classes.StudentListing_title}>
             Student Information
@@ -38,7 +51,11 @@ const StudentListing = () => {
           </span>
         </div>
         <div className="">
-          <DataTable backDropRef={backDropRef} sideDrawerRef={sideDrawerRef} />
+          <DataTable
+            setEditUserDetail={setEditUserDetail}
+            backDropRef={backDropRef}
+            sideDrawerRef={sideDrawerRef}
+          />
         </div>
       </div>
     );
