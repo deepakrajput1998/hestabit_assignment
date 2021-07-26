@@ -10,8 +10,13 @@ import { getListOfStudent } from './api';
 const StudentListing = () => {
  const [EditUserDetail, setEditUserDetail] = useState([]);
   useEffect(async() => {
-  const res=await getListOfStudent()
-  const data =  await res.json();
+    let res,data;
+    try {
+       res = await getListOfStudent();
+       data = await res.json(); 
+    } catch (error) {
+      console.log(error)
+    }
   console.log(data)
   }, [])
 
@@ -19,13 +24,14 @@ const StudentListing = () => {
    const backDropRef= useRef()
    const backdropCancelHandler=()=>{
             sideDrawerRef.current.style.width = "0";
-            backDropRef.current.style.display = "none";
+           backDropRef.current.style.display = "none";
         }
     return (
       <div>
         <Backdrop
           onCancelHandler={backdropCancelHandler}
           backDropRef={backDropRef}
+          sideDrawerRef={sideDrawerRef}
         />
         <Sidedrawer
           EditUserDetail={EditUserDetail}

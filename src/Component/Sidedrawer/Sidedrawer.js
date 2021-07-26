@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { useRef } from 'react';
 import { updateStudent } from '../../Pages/StudentListing/api';
 import classes from "./Sidedrawer.module.css";
 
@@ -13,7 +12,8 @@ export const Sidedrawer = ({ EditUserDetail, onOpenClick, ...rest }) => {
     mobile:'',
     dob:'',
     class:'',
-    scssion:''
+    scssion:'',
+    gender:''
   })
 
   const [section, setSection] = useState([
@@ -29,6 +29,11 @@ export const Sidedrawer = ({ EditUserDetail, onOpenClick, ...rest }) => {
     },
   ]);
 
+  const [genderArray, setgenderArray] = useState([
+    {label:'Male', value:'Male'},
+    {label:'Female', value:'Female'},
+    {label:'Others', value:'Others'}
+  ])
   const [ClassSection, setClassSection] = useState([
     {
       _id: "6040d6da01affa0011338dd5",
@@ -563,7 +568,12 @@ export const Sidedrawer = ({ EditUserDetail, onOpenClick, ...rest }) => {
       lname: EditUserDetail[0] !== undefined ? EditUserDetail[0].lname : "",
       email: EditUserDetail[0] !== undefined ? EditUserDetail[0].email : "",
       sId: EditUserDetail[0] !== undefined ? EditUserDetail[0].sid : "",
-      mobile: EditUserDetail[0] !== undefined ? EditUserDetail[0].mobile : "",
+      mobile:
+        EditUserDetail[0] !== undefined ? EditUserDetail[0].mobile_number : "",
+      dob: EditUserDetail[0] !== undefined ? EditUserDetail[0].dob : "",
+      scssion: EditUserDetail[0] !== undefined ? EditUserDetail[0].section : "",
+      class: EditUserDetail[0] !== undefined ? EditUserDetail[0].class : "",
+      gender: EditUserDetail[0] !== undefined ? EditUserDetail[0].gender : "",
     });
     setClassSection([
     {
@@ -1111,9 +1121,6 @@ console.log(output)
   }, [])
   const onChangeHadler=(e)=>{
    const {name,value}=e.target
-   if(name==='class'){
- setstate({ ...state, ['scssion']: '' });
-   }
     setstate({...state,[name]:value})
   }
   const closeNav=()=> {
@@ -1122,10 +1129,23 @@ console.log(output)
   }
 
   const saveHandler=async()=>{
-   const res=await updateStudent()
+   const res = await updateStudent({
+     first_name: "hampi",
+     last_name: "zampi",
+     campus: "Coppell",
+     user_id: "60b4e537d27e27001112a192",
+     student_id: "STID123",
+     dob: "01-01-2008",
+     gender: "MALE",
+     email: "student-beta1@getnada.com",
+     mobile_number: "12345678",
+     class_name: "VI",
+     section: "A",
+   });
    const data=await res.json()
+   console.log(data)
   }
-  
+   console.log(state);
   return (
     <div>
       <div ref={rest.sideDrawerRef} id="mySidenav" className={classes.sidenav}>
@@ -1190,10 +1210,15 @@ console.log(output)
             className={classes.sidenav_input}
           />
           <label className={classes.sidenav_label}>Gender</label>
-          <select type="text" className={classes.sidenav_input}>
-            <option>Select..</option>
-            <option>Male</option>
-            <option>Female</option>
+          <select name={'gender'} onChange={(e)=>onChangeHadler(e)} className={classes.sidenav_input}>
+            <option value=''>Select..</option>
+           {genderArray&&genderArray.map((data,i)=>{
+             return (
+               <option selected={(data.value.toLowerCase()) === state.gender.toLowerCase()} value={data.value}>
+                 {data.label}
+               </option>
+             );
+           })} 
           </select>
           <label className={classes.sidenav_label}>Email Address</label>
           <input
@@ -1222,7 +1247,7 @@ console.log(output)
             {ClassSection &&
               ClassSection.map((data, i) => {
                 return (
-                  <option key={i} value={data.class_name}>
+                  <option selected={data.class_name===state.class} key={i} value={data.class_name}>
                     {data.class_name}
                   </option>
                 );
@@ -1234,7 +1259,13 @@ console.log(output)
             {classSectionRelation[state.class] &&
               classSectionRelation[state.class].map((data, i) => {
                 return (
-                  <option key={i} value={data.section}>
+                  <option
+                    selected={
+                      data.section.toLowerCase() === state.scssion.toLowerCase()
+                    }
+                    key={i}
+                    value={data.section}
+                  >
                     {data.section}
                   </option>
                 );

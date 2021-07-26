@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Backdrop.module.css";
-const Backdrop = ({ onCancelHandler=()=>{}, ...rest }) => {
+const Backdrop = ({ onCancelHandler = () => {}, ...rest }) => {
+
   return (
     <div
       ref={rest.backDropRef}
