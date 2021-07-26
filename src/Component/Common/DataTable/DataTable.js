@@ -261,7 +261,7 @@ console.log(dataTableRef.current)
       <MDBDataTableV5
         ref={dataTableRef}
         hover
-        entriesOptions={[2,4,6]}
+        entriesOptions={[5,10,15]}
         onPageChange={(e) => {
           console.log(e, "jojikkn");
         }}
