@@ -5,16 +5,17 @@ import classes from "./Sidedrawer.module.css";
 
 export const Sidedrawer = ({ EditUserDetail, onOpenClick, ...rest }) => {
   const [state, setstate] = useState({
-    fname:'',
-    lname:'',
-    email:'',
-    sId:'',
-    mobile:'',
-    dob:'',
-    class:'',
-    scssion:'',
-    gender:''
-  })
+    fname: "",
+    lname: "",
+    email: "",
+    sId: "",
+    mobile: "",
+    dob: "",
+    class: "",
+    scssion: "",
+    gender: "",
+    campus:'',
+  });
 
   const [section, setSection] = useState([
     {
@@ -25,6 +26,11 @@ export const Sidedrawer = ({ EditUserDetail, onOpenClick, ...rest }) => {
     {
       _id: "6040d6db01affa0011338e23",
       campus_name: "Irving",
+      __v: 0,
+    },
+    {
+      _id: "6040d6db01affa0011338e24",
+      campus_name: "Hestabit",
       __v: 0,
     },
   ]);
@@ -574,6 +580,7 @@ export const Sidedrawer = ({ EditUserDetail, onOpenClick, ...rest }) => {
       scssion: EditUserDetail[0] !== undefined ? EditUserDetail[0].section : "",
       class: EditUserDetail[0] !== undefined ? EditUserDetail[0].class : "",
       gender: EditUserDetail[0] !== undefined ? EditUserDetail[0].gender : "",
+      campus: EditUserDetail[0] !== undefined ? EditUserDetail[0].campus : "",
     });
     setClassSection([
     {
@@ -1182,12 +1189,19 @@ console.log(output)
             className={classes.sidenav_input}
           />
           <label className={classes.sidenav_label}>Campus</label>
-          <select type="text" className={classes.sidenav_input}>
+          <select onChange={(e)=>{onChangeHadler(e)}} type="text" className={classes.sidenav_input}>
             <option value="">Select..</option>
             {section &&
               section.map((data, i) => {
                 return (
-                  <option key={i} value={data.campus_name}>
+                  <option
+                    selected={
+                      data.campus_name.toLowerCase() ===
+                      state.campus.toLowerCase()
+                    }
+                    key={i}
+                    value={data.campus_name}
+                  >
                     {data.campus_name}
                   </option>
                 );
